@@ -1,0 +1,32 @@
+# This is a basic workflow that is manually triggered
+
+name: Execution de test API Rick et Morty 
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on: [push, workflow_dispatch]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  TestApiGithub :
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+ 
+      - name: Install dependencies
+        run: npm install --global newman newman-reporter-htmlextra
+
+      - name: Run API Tests
+        run : newman run Rick&Morty API.postman_collection -e environment.json -r cli,htmlextra
+
+      - name: Publier le rapport HTML
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-report-${{ github.run_id }}-
+          path: newman/*.html
