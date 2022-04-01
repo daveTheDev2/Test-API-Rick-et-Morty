@@ -22,7 +22,7 @@ jobs:
         run: npm install --global newman newman-reporter-htmlextra
 
       - name: Run API Tests
-        run : newman run Rick&Morty API.postman_collection -e environment.json -r cli,htmlextra
+        run : newman run Rick&Morty API.postman_collection.json -e environment.json -r cli,htmlextra
 
       - name: Publier le rapport HTML
         uses: actions/upload-artifact@v3
